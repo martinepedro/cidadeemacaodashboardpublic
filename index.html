@@ -466,23 +466,12 @@ body { margin: 0; background: var(--bg); min-height: 100vh; }
 .tb-plan { display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 6px; border-radius: 999px; background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%); color: #fff; font-size: 12px; font-weight: 700; }
 .tb-plan .chip { background: rgba(255,255,255,.18); padding: 4px 9px; border-radius: 999px; font-size: 11px; }
 
-/* ===== Page show/hide via :target ===== */
+/* ===== Page show/hide (controlled by JS) ===== */
 .page { display: none; }
-.page:target { display: block; }
-/* Default: dashboard visible when no hash is present (modern browsers via :has) */
-.app-shell:not(:has(.page:target)) #dashboard { display: block; }
+.page.active { display: block; }
 
-/* Active state in sidebar based on which page is targeted */
-.app-shell:has(#perfil:target) .nav-perfil,
-.app-shell:has(#horarios:target) .nav-horarios,
-.app-shell:has(#promocoes:target) .nav-promocoes,
-.app-shell:has(#cupons:target) .nav-cupons,
-.app-shell:has(#banners:target) .nav-banners,
-.app-shell:has(#vagas:target) .nav-vagas,
-.app-shell:has(#eventos:target) .nav-eventos,
-.app-shell:has(#jarvis:target) .nav-jarvis,
-.app-shell:has(#dashboard:target) .nav-dashboard,
-.app-shell:not(:has(.page:target)) .nav-dashboard {
+/* Active state in sidebar */
+.nav-item.active {
   background: var(--brand-blue-50);
   color: var(--brand-blue);
 }
@@ -693,5 +682,37 @@ Quer que eu replique a fórmula em uma promoção para o jantar?</div></div><div
 </section>
   </main>
 </div>
+<script>
+  (function () {
+    var pages = document.querySelectorAll('.page');
+    var navs = document.querySelectorAll('.nav-item');
+
+    function show(id) {
+      pages.forEach(function (p) {
+        p.classList.toggle('active', p.id === id);
+      });
+      navs.forEach(function (n) {
+        var match = (n.getAttribute('href') || '').replace('#', '') === id;
+        n.classList.toggle('active', match);
+      });
+      window.scrollTo(0, 0);
+    }
+
+    navs.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var id = (a.getAttribute('href') || '').replace('#', '');
+        if (!id) return;
+        if (history.replaceState) history.replaceState(null, '', '#' + id);
+        show(id);
+      });
+    });
+
+    // Initial: read hash or fallback to dashboard
+    var initial = (location.hash || '#dashboard').replace('#', '');
+    if (!document.getElementById(initial)) initial = 'dashboard';
+    show(initial);
+  })();
+</script>
 </body>
 </html>
