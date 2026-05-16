@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Cidade em Ação — Todas as Telas (PDF)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 portrait; margin: 12mm; }
+  html, body { margin: 0; padding: 0; background: #f6f7fb; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #0e1530; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { display: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  .doc { max-width: 794px; margin: 0 auto; padding: 24px; }
+  .cover { padding: 40px 24px 30px; border-bottom: 1px solid #e4e7ef; margin-bottom: 16px; page-break-after: always; }
+  .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: #ff6b4a; text-transform: uppercase; }
+  h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1.05; margin: 10px 0 14px; }
+  h1 em { font-style: normal; color: #0a3a99; }
+  .lede { font-size: 14px; color: #5b6479; line-height: 1.5; max-width: 540px; }
+  .meta { display: flex; gap: 18px; font-size: 11px; color: #5b6479; margin-top: 22px; flex-wrap: wrap; }
+  .meta strong { color: #0e1530; }
+
+  .palette { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 18px; }
+  .sw { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: #fff; border: 1px solid #e4e7ef; font-size: 11px; font-weight: 600; }
+  .sw i { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; }
+  .card { break-inside: avoid; page-break-inside: avoid; display: flex; flex-direction: column; align-items: center; }
+  .card .cap { width: 100%; font-size: 11px; font-weight: 700; color: #5b6479; margin-bottom: 6px; display: flex; gap: 8px; align-items: baseline; }
+  .card .num { color: #0a3a99; font-weight: 800; }
+  .card .title { color: #0e1530; }
+  .phone-wrap { transform-origin: top center; }
+
+  /* page break every 4 cards */
+  .card.bk { page-break-before: always; }
+
+  @media print {
+    body { background: #fff; }
+    .doc { padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+  <section class="cover">
+    <div class="eyebrow">Cidade em Ação · Novo posicionamento</div>
+    <h1>De app de prefeitura<br>a <em>ecossistema</em> da cidade.</h1>
+    <p class="lede">Fluxo completo do novo app: 5 telas de onboarding com foco em utilidade, oportunidades e comércio local; cadastro com interesses; e a nova home com 5 blocos (destaques, empregos, comércio, eventos, serviços públicos).</p>
+    <div class="palette">
+      <span class="sw"><i style="background:#0a3a99"></i>Marca</span>
+      <span class="sw"><i style="background:#ff6b4a"></i>Vida urbana</span>
+      <span class="sw"><i style="background:#19a974"></i>Empregos</span>
+      <span class="sw"><i style="background:#7c5cff"></i>Eventos</span>
+      <span class="sw"><i style="background:#f5b400"></i>Alertas</span>
+      <span class="sw"><i style="background:#ff5a8a"></i>Promoções</span>
+    </div>
+    <div class="meta">
+      <div><strong>Cidade fictícia</strong> &nbsp;Recife — PE</div>
+      <div><strong>Tipografia</strong> &nbsp;Plus Jakarta Sans</div>
+      <div><strong>Frame</strong> &nbsp;Android (380×780)</div>
+      <div><strong>Total</strong> &nbsp;11 telas</div>
+    </div>
+  </section>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tokens.jsx"></script>
+<script type="text/babel" src="android-frame.jsx"></script>
+<script type="text/babel" src="screens-onboarding.jsx"></script>
+<script type="text/babel" src="screens-app.jsx"></script>
+
+<script type="text/babel">
+const noop = () => {};
+
+const SCREENS = [
+  { n: '01', t: 'Abertura', sub: 'Tudo da sua cidade em um só lugar', el: <window.Onboard1 onNext={noop} onSkip={noop}/> },
+  { n: '02', t: 'Empregos & oportunidades', sub: 'Vagas, cursos e oportunidades locais', el: <window.Onboard2 onNext={noop} onSkip={noop}/> },
+  { n: '03', t: 'Comércio local', sub: 'Promoções, empresas locais, cupons', el: <window.Onboard3 onNext={noop} onSkip={noop}/> },
+  { n: '04', t: 'Alertas em tempo real', sub: 'Notificações inteligentes', el: <window.Onboard4 onNext={noop} onSkip={noop}/> },
+  { n: '05', t: 'Participação cidadã', sub: 'Reporte, vote, acompanhe', el: <window.Onboard5 onNext={noop} onSkip={noop}/> },
+  { n: '06', t: 'Cadastro + interesses', sub: 'Segmentação inteligente de conteúdo', el: <window.CadastroScreen onDone={noop} onBack={noop}/> },
+  { n: '07', t: 'Home (nova)', sub: '5 blocos: destaques, empregos, comércio, eventos, serviços', el: <window.HomeScreen layout="carrossel" density="cozy" onTab={noop}/> },
+  { n: '08', t: 'Empregos', sub: 'Banco de vagas com candidatura rápida', el: <window.EmpregosScreen onTab={noop}/> },
+  { n: '09', t: 'Cidade', sub: 'Comércio + eventos + serviços', el: <window.CidadeScreen onTab={noop}/> },
+  { n: '10', t: 'Alertas', sub: 'Notificações segmentadas por interesse', el: <window.AlertasScreen onTab={noop}/> },
+  { n: '11', t: 'Perfil', sub: 'Conta, premium, interesses', el: <window.PerfilScreen onTab={noop}/> },
+];
+
+// Each phone is 380×780. We scale to fit a card ~360px wide.
+const SCALE = 0.92;
+const PHONE_W = 380;
+const PHONE_H = 780;
+
+function Card({ s, idx }) {
+  return (
+    <div className={'card' + ((idx > 0 && idx % 4 === 0) ? ' bk' : '')}>
+      <div className="cap">
+        <span className="num">{s.n}</span>
+        <span className="title">{s.t} <span style={{color:'#8a93a6', fontWeight:500}}>· {s.sub}</span></span>
+      </div>
+      <div className="phone-wrap" style={{ width: PHONE_W * SCALE, height: PHONE_H * SCALE + 40 }}>
+        <div style={{ transform: `scale(${SCALE})`, transformOrigin: 'top left', width: PHONE_W, height: PHONE_H }}>
+          <window.AndroidDevice width={PHONE_W} height={PHONE_H}>
+            <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }} className="no-scrollbar">
+              {s.el}
+            </div>
+          </window.AndroidDevice>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Doc() {
+  return <>{SCREENS.map((s, i) => <Card key={i} s={s} idx={i}/>)}</>;
+}
+
+ReactDOM.createRoot(document.getElementById('grid')).render(<Doc/>);
+</script>
+</body>
+</html>
